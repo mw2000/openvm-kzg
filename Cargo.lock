@@ -886,18 +886,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c34f04666d835ff5d62e058c3995147c06f42fe86ff053337632bca83e42702d"
 
 [[package]]
-name = "enum_dispatch"
-version = "0.3.13"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aa18ce2bc66555b3218614519ac839ddb759a7d6720732f979ef8d13be147ecd"
-dependencies = [
- "once_cell",
- "proc-macro2",
- "quote",
- "syn 2.0.100",
-]
-
-[[package]]
 name = "equivalent"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1070,8 +1058,9 @@ dependencies = [
 
 [[package]]
 name = "halo2curves-axiom"
-version = "0.7.2"
-source = "git+https://github.com/axiom-crypto/halo2curves.git?tag=v0.7.2#3a65a710e27fe03711f6fb4fc0c4469ae351974a"
+version = "0.7.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "276d6c463e0e8e70c1a221baae62b670453f6ef851dd1c73f0764e5215fda64d"
 dependencies = [
  "blake2b_simd",
  "digest",
@@ -1588,8 +1577,8 @@ checksum = "d75b0bedcc4fe52caa0e03d9f1151a323e4aa5e2d78ba3580400cd3c9e2bc4bc"
 
 [[package]]
 name = "openvm"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "bytemuck",
  "getrandom 0.2.15",
@@ -1603,8 +1592,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-algebra-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "blstrs",
  "cfg-if",
@@ -1635,8 +1624,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-algebra-complex-macros"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-macros-common",
  "quote",
@@ -1645,8 +1634,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-algebra-guest"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "halo2curves-axiom",
  "num-bigint",
@@ -1661,8 +1650,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-algebra-moduli-macros"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "num-bigint",
  "num-prime",
@@ -1673,8 +1662,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-algebra-transpiler"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-algebra-guest",
  "openvm-instructions",
@@ -1687,8 +1676,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-bigint-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "cfg-if",
  "derive-new 0.6.0",
@@ -1711,8 +1700,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-bigint-guest"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-platform",
  "strum_macros",
@@ -1720,8 +1709,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-bigint-transpiler"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-bigint-guest",
  "openvm-instructions",
@@ -1735,8 +1724,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-build"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "cargo_metadata",
  "eyre",
@@ -1747,18 +1736,16 @@ dependencies = [
 
 [[package]]
 name = "openvm-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "abi_stable",
  "backtrace",
  "bytesize",
  "cfg-if",
  "dashmap",
- "derivative",
  "derive-new 0.6.0",
  "derive_more",
- "enum_dispatch",
  "eyre",
  "getset",
  "itertools 0.14.0",
@@ -1785,8 +1772,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-circuit-derive"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "itertools 0.14.0",
  "proc-macro2",
@@ -1796,8 +1783,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-circuit-primitives"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "derive-new 0.6.0",
  "itertools 0.14.0",
@@ -1814,8 +1801,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-circuit-primitives-derive"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "itertools 0.14.0",
  "proc-macro2",
@@ -1825,8 +1812,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-codec-derive"
-version = "2.0.0-alpha"
-source = "git+https://github.com/openvm-org/stark-backend.git?branch=develop-v2#12c8f9eebf9622972244473d9058ca6f560033eb"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/stark-backend.git?tag=v2.1.0#a6b4761ad9a098f3a166740d22ad60b96400cd65"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
@@ -1836,12 +1823,14 @@ dependencies = [
 
 [[package]]
 name = "openvm-continuations"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "cfg-if",
+ "derivative",
  "derive-new 0.6.0",
  "eyre",
+ "hex",
  "itertools 0.14.0",
  "num-bigint",
  "openvm-circuit",
@@ -1856,13 +1845,15 @@ dependencies = [
  "p3-air",
  "p3-field",
  "p3-matrix",
+ "serde",
+ "thiserror 1.0.69",
  "tracing",
 ]
 
 [[package]]
 name = "openvm-cpu-backend"
-version = "2.0.0-alpha"
-source = "git+https://github.com/openvm-org/stark-backend.git?branch=develop-v2#12c8f9eebf9622972244473d9058ca6f560033eb"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/stark-backend.git?tag=v2.1.0#a6b4761ad9a098f3a166740d22ad60b96400cd65"
 dependencies = [
  "cfg-if",
  "derive-new 0.7.0",
@@ -1886,8 +1877,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-cuda-builder"
-version = "2.0.0-alpha"
-source = "git+https://github.com/openvm-org/stark-backend.git?branch=develop-v2#12c8f9eebf9622972244473d9058ca6f560033eb"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/stark-backend.git?tag=v2.1.0#a6b4761ad9a098f3a166740d22ad60b96400cd65"
 dependencies = [
  "cc",
  "glob",
@@ -1895,8 +1886,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-custom-insn"
-version = "0.1.0"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1905,14 +1896,13 @@ dependencies = [
 
 [[package]]
 name = "openvm-deferral-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "cfg-if",
  "dashmap",
  "derive-new 0.6.0",
  "derive_more",
- "eyre",
  "itertools 0.14.0",
  "openvm-circuit",
  "openvm-circuit-derive",
@@ -1923,21 +1913,18 @@ dependencies = [
  "openvm-instructions",
  "openvm-poseidon2-air",
  "openvm-rv32im-circuit",
- "openvm-rv32im-transpiler",
  "openvm-stark-backend",
  "openvm-stark-sdk",
  "p3-field",
  "rand 0.9.4",
  "rustc-hash",
  "serde",
- "static_assertions",
- "strum",
 ]
 
 [[package]]
 name = "openvm-deferral-guest"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-custom-insn",
  "strum_macros",
@@ -1945,8 +1932,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-deferral-transpiler"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "eyre",
  "openvm-deferral-guest",
@@ -1961,8 +1948,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-ecc-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "blstrs",
  "cfg-if",
@@ -1992,8 +1979,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-ecc-guest"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "ecdsa",
  "elliptic-curve",
@@ -2011,8 +1998,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-ecc-sw-macros"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-macros-common",
  "quote",
@@ -2021,8 +2008,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-ecc-transpiler"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-ecc-guest",
  "openvm-instructions",
@@ -2035,8 +2022,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-instructions"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "backtrace",
  "derive-new 0.6.0",
@@ -2052,8 +2039,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-instructions-derive"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "quote",
  "syn 2.0.100",
@@ -2061,8 +2048,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-keccak256-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "derive-new 0.6.0",
  "derive_more",
@@ -2086,16 +2073,16 @@ dependencies = [
 
 [[package]]
 name = "openvm-keccak256-guest"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-platform",
 ]
 
 [[package]]
 name = "openvm-keccak256-transpiler"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-instructions",
  "openvm-instructions-derive",
@@ -2121,6 +2108,7 @@ dependencies = [
  "openvm-kzg",
  "openvm-pairing",
  "openvm-sdk",
+ "openvm-sdk-config",
  "openvm-stark-sdk",
  "serde",
  "serde-big-array",
@@ -2131,16 +2119,16 @@ dependencies = [
 
 [[package]]
 name = "openvm-macros-common"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "syn 2.0.100",
 ]
 
 [[package]]
 name = "openvm-mod-circuit-builder"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "itertools 0.14.0",
  "num-bigint",
@@ -2157,8 +2145,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-pairing"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "group 0.13.0",
  "halo2curves-axiom",
@@ -2181,8 +2169,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-pairing-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "cfg-if",
  "derive-new 0.6.0",
@@ -2211,8 +2199,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-pairing-guest"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "blstrs",
  "halo2curves-axiom",
@@ -2232,8 +2220,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-pairing-transpiler"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-instructions",
  "openvm-pairing-guest",
@@ -2245,8 +2233,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-platform"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "libm",
  "openvm-custom-insn",
@@ -2255,8 +2243,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-poseidon2-air"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "derivative",
  "lazy_static",
@@ -2268,16 +2256,15 @@ dependencies = [
  "p3-poseidon2-air",
  "p3-symmetric",
  "rand 0.9.4",
- "zkhash",
+ "zkhash-axiom",
 ]
 
 [[package]]
 name = "openvm-recursion-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "derive-new 0.6.0",
- "eyre",
  "itertools 0.14.0",
  "openvm-circuit",
  "openvm-circuit-primitives",
@@ -2299,8 +2286,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-recursion-circuit-derive"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "quote",
  "syn 2.0.100",
@@ -2308,8 +2295,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-rv32-adapters"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "derive-new 0.6.0",
  "itertools 0.14.0",
@@ -2325,8 +2312,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-rv32im-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "cfg-if",
  "derive-new 0.6.0",
@@ -2345,22 +2332,22 @@ dependencies = [
  "rand 0.9.4",
  "serde",
  "strum",
+ "tracing",
 ]
 
 [[package]]
 name = "openvm-rv32im-guest"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-custom-insn",
- "p3-field",
  "strum_macros",
 ]
 
 [[package]]
 name = "openvm-rv32im-transpiler"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-instructions",
  "openvm-instructions-derive",
@@ -2375,11 +2362,10 @@ dependencies = [
 
 [[package]]
 name = "openvm-sdk"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "bitcode",
- "bon",
  "cfg-if",
  "clap",
  "derivative",
@@ -2389,7 +2375,6 @@ dependencies = [
  "getset",
  "hex",
  "itertools 0.14.0",
- "num-bigint",
  "openvm",
  "openvm-build",
  "openvm-circuit",
@@ -2406,24 +2391,23 @@ dependencies = [
  "serde_json",
  "serde_with",
  "thiserror 1.0.69",
- "toml",
  "tracing",
 ]
 
 [[package]]
 name = "openvm-sdk-config"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "bon",
  "cfg-if",
  "derive_more",
- "openvm",
  "openvm-algebra-circuit",
  "openvm-algebra-transpiler",
  "openvm-bigint-circuit",
  "openvm-bigint-transpiler",
  "openvm-circuit",
+ "openvm-continuations",
  "openvm-cpu-backend",
  "openvm-deferral-circuit",
  "openvm-deferral-transpiler",
@@ -2440,14 +2424,15 @@ dependencies = [
  "openvm-stark-backend",
  "openvm-stark-sdk",
  "openvm-transpiler",
+ "openvm-verify-stark-circuit",
  "serde",
  "toml",
 ]
 
 [[package]]
 name = "openvm-sha2-air"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "ndarray",
  "num_enum",
@@ -2460,8 +2445,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-sha2-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "cfg-if",
  "derive-new 0.6.0",
@@ -2486,16 +2471,16 @@ dependencies = [
 
 [[package]]
 name = "openvm-sha2-guest"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-platform",
 ]
 
 [[package]]
 name = "openvm-sha2-transpiler"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "openvm-instructions",
  "openvm-instructions-derive",
@@ -2508,8 +2493,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-stark-backend"
-version = "2.0.0-alpha"
-source = "git+https://github.com/openvm-org/stark-backend.git?branch=develop-v2#12c8f9eebf9622972244473d9058ca6f560033eb"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/stark-backend.git?tag=v2.1.0#a6b4761ad9a098f3a166740d22ad60b96400cd65"
 dependencies = [
  "cfg-if",
  "derivative",
@@ -2540,8 +2525,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-stark-sdk"
-version = "2.0.0-alpha"
-source = "git+https://github.com/openvm-org/stark-backend.git?branch=develop-v2#12c8f9eebf9622972244473d9058ca6f560033eb"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/stark-backend.git?tag=v2.1.0#a6b4761ad9a098f3a166740d22ad60b96400cd65"
 dependencies = [
  "dashmap",
  "derive-new 0.7.0",
@@ -2565,8 +2550,8 @@ dependencies = [
 
 [[package]]
 name = "openvm-transpiler"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "elf",
  "eyre",
@@ -2579,9 +2564,10 @@ dependencies = [
 
 [[package]]
 name = "openvm-verify-stark-circuit"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
+ "bitcode",
  "cfg-if",
  "derive-new 0.6.0",
  "eyre",
@@ -2598,16 +2584,16 @@ dependencies = [
  "openvm-stark-sdk",
  "openvm-verify-stark-host",
  "p3-air",
- "p3-bn254",
  "p3-field",
  "p3-matrix",
+ "serde",
  "tracing",
 ]
 
 [[package]]
 name = "openvm-verify-stark-host"
-version = "2.0.0-beta.2"
-source = "git+https://github.com/openvm-org/openvm.git?branch=develop-v2.0.0-rc.2#bf4cfbf42eaa9c1c0a1298a8a93915089aa07f42"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
 dependencies = [
  "bitcode",
  "eyre",
@@ -2654,22 +2640,6 @@ dependencies = [
  "p3-poseidon2",
  "p3-symmetric",
  "rand 0.9.4",
-]
-
-[[package]]
-name = "p3-bn254"
-version = "0.4.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "923bd91df7dd93481b4bfb53aa903d46d1a49d51160513472a5e95ca92ef1b46"
-dependencies = [
- "num-bigint",
- "p3-field",
- "p3-poseidon2",
- "p3-symmetric",
- "p3-util",
- "paste",
- "rand 0.9.4",
- "serde",
 ]
 
 [[package]]
@@ -4203,9 +4173,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "zkhash"
+name = "zkhash-axiom"
 version = "0.2.0"
-source = "git+https://github.com/HorizenLabs/poseidon2.git?rev=bb476b9#bb476b9ca38198cf5092487283c8b8c5d4317c4e"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7d038a7895d0e3ab0a352f53e7eb4f1f829f88fce2fb3cff93d665a8a0e01af6"
 dependencies = [
  "ark-ff",
  "ark-std",
@@ -4230,27 +4201,27 @@ dependencies = [
 
 [[package]]
 name = "zstd"
-version = "0.13.3"
+version = "0.14.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e91ee311a569c327171651566e07972200e76fcfe2242a4fa446149a3881c08a"
+checksum = "db3ae9bf90af6e40197bef767eeefc46ad6397420fe873830bd85e5fbbfb3c70"
 dependencies = [
  "zstd-safe",
 ]
 
 [[package]]
 name = "zstd-safe"
-version = "7.2.4"
+version = "8.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8f49c4d5f0abb602a93fb8736af2a4f4dd9512e36f7f570d66e65ff867ed3b9d"
+checksum = "ded520f16b29e1a9b771c722221b2b0a0398c2316d9bb3c42b458a5414d7434b"
 dependencies = [
  "zstd-sys",
 ]
 
 [[package]]
 name = "zstd-sys"
-version = "2.0.16+zstd.1.5.7"
+version = "2.1.2+zstd.1.5.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "91e19ebc2adc8f83e43039e79776e3fda8ca919132d68a1fed6a5faca2683748"
+checksum = "481ada9c543b2323cbb7bbdbb5249177fbf0188ed959ed2c15e4b22421c84ed3"
 dependencies = [
  "cc",
  "pkg-config",

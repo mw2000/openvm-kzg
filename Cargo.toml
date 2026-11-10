@@ -5,15 +5,15 @@ members = ["tests/programs/verify_kzg"]
 name = "openvm-kzg"
 version = "0.2.0-alpha"
 edition = "2021"
-rust-version = "1.90"
+rust-version = "1.91.1"
 authors = ["Axiom"]
 homepage = "https://axiom.xyz"
 license = "MIT"
 
 [dependencies]
-openvm-algebra-guest = { git = "https://github.com/openvm-org/openvm.git", branch = "develop-v2.0.0-rc.2" }
-openvm-ecc-guest = { git = "https://github.com/openvm-org/openvm.git", branch = "develop-v2.0.0-rc.2" }
-openvm-pairing = { git = "https://github.com/openvm-org/openvm.git", branch = "develop-v2.0.0-rc.2", features = [
+openvm-algebra-guest = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0" }
+openvm-ecc-guest = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0" }
+openvm-pairing = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0", features = [
     "bls12_381",
 ] }
 
@@ -35,17 +35,17 @@ serde-big-array = { version = "0.5.1", default-features = false }
 serde_yaml = { version = "0.9", default-features = false }
 
 [target.'cfg(not(target_os = "zkvm"))'.dev-dependencies]
-openvm-stark-sdk = { git = "https://github.com/openvm-org/stark-backend.git", branch = "develop-v2", default-features = false }
+openvm-stark-sdk = { git = "https://github.com/openvm-org/stark-backend.git", tag = "v2.1.0", default-features = false }
 
-# develop-v2.0.0-rc.2 hasn't been finalized yet, so we use the commit hash which fixed a prover bug.
-openvm = { git = "https://github.com/openvm-org/openvm.git", branch = "develop-v2.0.0-rc.2" }
-openvm-sdk = { git = "https://github.com/openvm-org/openvm.git", branch = "develop-v2.0.0-rc.2" }
-openvm-build = { git = "https://github.com/openvm-org/openvm.git", branch = "develop-v2.0.0-rc.2" }
-openvm-circuit = { git = "https://github.com/openvm-org/openvm.git", branch = "develop-v2.0.0-rc.2", features = [
+openvm = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0" }
+openvm-sdk = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0" }
+openvm-sdk-config = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0" }
+openvm-build = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0" }
+openvm-circuit = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0", features = [
     "parallel",
     "test-utils",
 ] }
-openvm-pairing = { git = "https://github.com/openvm-org/openvm.git", branch = "develop-v2.0.0-rc.2", features = [
+openvm-pairing = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0", features = [
     "halo2curves",
 ] }
 openvm-kzg = { path = ".", default-features = false, features = ["test-utils"] }

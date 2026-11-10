@@ -2109,6 +2109,7 @@ dependencies = [
  "openvm-pairing",
  "openvm-sdk",
  "openvm-sdk-config",
+ "openvm-sha2",
  "openvm-stark-sdk",
  "serde",
  "serde-big-array",
@@ -2427,6 +2428,15 @@ dependencies = [
  "openvm-verify-stark-circuit",
  "serde",
  "toml",
+]
+
+[[package]]
+name = "openvm-sha2"
+version = "2.1.0"
+source = "git+https://github.com/openvm-org/openvm.git?tag=v2.1.0#05f3b73e7294fbb6d38155abafc98f1fe2bcfb73"
+dependencies = [
+ "openvm-sha2-guest",
+ "sha2",
 ]
 
 [[package]]

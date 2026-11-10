@@ -1,6 +1,10 @@
 use crate::dtypes::*;
 use crate::enums::KzgError;
 use crate::types::KzgSettings;
+use crate::{
+    BYTES_PER_FIELD_ELEMENT, FIAT_SHAMIR_PROTOCOL_DOMAIN, NUM_FIELD_ELEMENTS_PER_BLOB,
+    RANDOM_CHALLENGE_KZG_BATCH_DOMAIN,
+};
 
 use alloc::{string::ToString, vec::Vec};
 #[cfg(not(feature = "use-intrinsics"))]
@@ -8,10 +12,12 @@ use bls12_381::{multi_miller_loop, G2Prepared, Gt};
 use bls12_381::{G1Affine, G2Affine, Scalar};
 #[cfg(target_os = "zkvm")]
 use core::cmp::Ordering;
+#[cfg(not(target_os = "zkvm"))]
+use openvm_sha2::Digest;
 use {
     hex_literal::hex,
     openvm_algebra_guest::field::FieldExtension,
-    openvm_algebra_guest::IntMod,
+    openvm_algebra_guest::{DivUnsafe, IntMod, Reduce},
     openvm_ecc_guest::{
         weierstrass::{CachedMulTable, IntrinsicCurve, WeierstrassPoint},
         AffinePoint, CyclicGroup, Group,
@@ -20,6 +26,7 @@ use {
         Bls12_381 as Bls12_381_G1, Fp, Fp2, G1Affine as Bls12_381G1Affine,
         G2Affine as Bls12_381G2Affine, Scalar as Bls12_381Scalar,
     },
+    openvm_sha2::Sha256,
 };
 
 const G2_AFFINE_GENERATOR: Bls12_381G2Affine = Bls12_381G2Affine::new(
@@ -123,6 +130,167 @@ impl KzgProof {
             == Gt::identity();
         Ok(success)
     }
+}
+
+impl KzgProof {
+    /// Verifies a batch of blob KZG proofs, following EIP-4844 `verify_blob_kzg_proof_batch`.
+    ///
+    /// Returns `Ok(false)` if the pairing check fails and `Err` for malformed inputs. The same
+    /// caveat as [`Self::verify_kzg_proof`] applies: a dishonest host may cause a panic on valid
+    /// inputs.
+    pub fn verify_blob_kzg_proof_batch(
+        blobs: Vec<Blob>,
+        commitments_bytes: Vec<Bytes48>,
+        proofs_bytes: Vec<Bytes48>,
+        kzg_settings: &KzgSettings,
+    ) -> Result<bool, KzgError> {
+        let n = blobs.len();
+        if commitments_bytes.len() != n || proofs_bytes.len() != n {
+            return Err(KzgError::InvalidBytesLength(
+                "Mismatched batch lengths".to_string(),
+            ));
+        }
+        if n == 0 {
+            return Ok(true);
+        }
+
+        // ponytail: converts all roots on every call; cache them if a guest verifies many batches.
+        let roots: Vec<Bls12_381Scalar> = kzg_settings
+            .roots_of_unity
+            .iter()
+            .map(|root| Bls12_381Scalar::from_le_bytes_unchecked(&root.to_bytes()))
+            .collect();
+
+        let mut commitments = Vec::with_capacity(n);
+        let mut proofs = Vec::with_capacity(n);
+        let mut zs = Vec::with_capacity(n);
+        let mut ys = Vec::with_capacity(n);
+        for ((blob, commitment), proof) in blobs.iter().zip(&commitments_bytes).zip(&proofs_bytes) {
+            commitments.push(safe_g1_affine_from_bytes(commitment)?);
+            proofs.push(safe_g1_affine_from_bytes(proof)?);
+            let z = compute_challenge(blob, commitment);
+            ys.push(evaluate_blob_in_evaluation_form(blob, &z, &roots)?);
+            zs.push(z);
+        }
+
+        let r = compute_batch_challenge(&commitments_bytes, &zs, &ys, &proofs_bytes);
+        let mut r_powers = Vec::with_capacity(n);
+        let mut r_power = Bls12_381Scalar::ONE;
+        for _ in 0..n {
+            let next = r_power.clone() * &r;
+            r_powers.push(r_power);
+            r_power = next;
+        }
+
+        // e(Σ rⁱ·πᵢ, [s]) == e(Σ rⁱ·(Cᵢ − [yᵢ] + zᵢ·πᵢ), [1]), with the [yᵢ] terms folded into a
+        // single multiple of the generator.
+        let proof_lincomb = Bls12_381_G1::msm(&r_powers, &proofs);
+        let y_lincomb: Bls12_381Scalar = r_powers.iter().zip(&ys).map(|(r, y)| r.clone() * y).sum();
+        let mut scalars = r_powers.clone();
+        scalars.extend(r_powers.iter().zip(&zs).map(|(r, z)| r.clone() * z));
+        scalars.push(-y_lincomb);
+        let mut bases = commitments;
+        bases.extend(proofs);
+        bases.push(Bls12_381G1Affine::GENERATOR);
+        let rhs = Bls12_381_G1::msm(&scalars, &bases);
+
+        let s_g2 = to_openvm_g2_affine(kzg_settings.g2_points[1]);
+        Ok(pairings_verify(
+            proof_lincomb,
+            s_g2,
+            rhs,
+            G2_AFFINE_GENERATOR.clone(),
+        ))
+    }
+}
+
+/// Fiat-Shamir challenge for one blob: `hash_to_bls_field(domain || degree || blob || commitment)`.
+///
+/// `commitment` decoded successfully, so its bytes are the canonical compressed encoding.
+fn compute_challenge(blob: &Blob, commitment: &Bytes48) -> Bls12_381Scalar {
+    let mut hasher = Sha256::new();
+    hasher.update(FIAT_SHAMIR_PROTOCOL_DOMAIN.as_bytes());
+    hasher.update(
+        (NUM_FIELD_ELEMENTS_PER_BLOB as u128)
+            .to_be_bytes()
+            .as_slice(),
+    );
+    hasher.update(blob.as_slice());
+    hasher.update(commitment.as_slice());
+    let hash: [u8; 32] = hasher.finalize().into();
+    Bls12_381Scalar::reduce_be_bytes(&hash)
+}
+
+/// Random linear-combination challenge `r` binding every commitment, evaluation and proof.
+fn compute_batch_challenge(
+    commitments: &[Bytes48],
+    zs: &[Bls12_381Scalar],
+    ys: &[Bls12_381Scalar],
+    proofs: &[Bytes48],
+) -> Bls12_381Scalar {
+    let mut hasher = Sha256::new();
+    hasher.update(RANDOM_CHALLENGE_KZG_BATCH_DOMAIN.as_bytes());
+    hasher.update(
+        (NUM_FIELD_ELEMENTS_PER_BLOB as u64)
+            .to_be_bytes()
+            .as_slice(),
+    );
+    hasher.update((commitments.len() as u64).to_be_bytes().as_slice());
+    for (((commitment, z), y), proof) in commitments.iter().zip(zs).zip(ys).zip(proofs) {
+        hasher.update(commitment.as_slice());
+        hasher.update(z.to_be_bytes().as_slice());
+        hasher.update(y.to_be_bytes().as_slice());
+        hasher.update(proof.as_slice());
+    }
+    let hash: [u8; 32] = hasher.finalize().into();
+    Bls12_381Scalar::reduce_be_bytes(&hash)
+}
+
+/// Evaluates the blob polynomial, given in evaluation form over `roots`, at `z` with the
+/// barycentric formula `p(z) = (zᴺ − 1)/N · Σ pᵢ·ωᵢ/(z − ωᵢ)`.
+fn evaluate_blob_in_evaluation_form(
+    blob: &Blob,
+    z: &Bls12_381Scalar,
+    roots: &[Bls12_381Scalar],
+) -> Result<Bls12_381Scalar, KzgError> {
+    let polynomial = blob
+        .as_slice()
+        .chunks_exact(BYTES_PER_FIELD_ELEMENT)
+        .map(|bytes| {
+            Bls12_381Scalar::from_be_bytes(bytes)
+                .ok_or_else(|| KzgError::BadArgs("Blob field element is not canonical".to_string()))
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+
+    let mut denominators = Vec::with_capacity(NUM_FIELD_ELEMENTS_PER_BLOB);
+    for (root, value) in roots.iter().zip(&polynomial) {
+        if z == root {
+            return Ok(value.clone());
+        }
+        denominators.push(z.clone() - root);
+    }
+
+    // Montgomery batch inversion: one division for every (z − ωᵢ)⁻¹. No factor is zero, so
+    // neither is their product.
+    let mut prefix_products = Vec::with_capacity(denominators.len());
+    let mut product = Bls12_381Scalar::ONE;
+    for denominator in &denominators {
+        prefix_products.push(product.clone());
+        product *= denominator;
+    }
+    let mut inverse = Bls12_381Scalar::ONE.div_unsafe(product);
+    let mut sum = Bls12_381Scalar::ZERO;
+    for i in (0..denominators.len()).rev() {
+        sum += inverse.clone() * &prefix_products[i] * &roots[i] * &polynomial[i];
+        inverse *= &denominators[i];
+    }
+
+    let mut z_pow_n = z.clone();
+    for _ in 0..NUM_FIELD_ELEMENTS_PER_BLOB.ilog2() {
+        z_pow_n.square_assign();
+    }
+    let n = Bls12_381Scalar::from_u32(NUM_FIELD_ELEMENTS_PER_BLOB as u32);
+    Ok((sum * (z_pow_n - Bls12_381Scalar::ONE)).div_unsafe(n))
 }
 
 /// Verifies the pairing of two G1 and two G2 points are equivalent using the multi-miller loop.
@@ -330,8 +498,8 @@ fn convert_g2(g2: &AffinePoint<Fp2>) -> G2Affine {
 pub mod tests {
     use super::*;
     use crate::{
-        test_files::VERIFY_KZG_PROOF_TESTS,
-        test_utils::{Input, Test},
+        test_files::{VERIFY_BLOB_KZG_PROOF_TESTS, VERIFY_KZG_PROOF_TESTS},
+        test_utils::{FromHex, Input, Test},
     };
 
     // This is a test on host
@@ -356,5 +524,76 @@ pub mod tests {
             let is_ok = result.unwrap_or(false);
             assert_eq!(is_ok, test.get_output().unwrap_or(false));
         }
+    }
+
+    #[derive(serde::Deserialize)]
+    struct BlobInput<'a> {
+        blob: &'a str,
+        commitment: &'a str,
+        proof: &'a str,
+    }
+
+    #[derive(serde::Deserialize)]
+    struct BlobBatchInput<'a> {
+        #[serde(borrow)]
+        blobs: Vec<&'a str>,
+        #[serde(borrow)]
+        commitments: Vec<&'a str>,
+        #[serde(borrow)]
+        proofs: Vec<&'a str>,
+    }
+
+    /// `None` when the spec expects an error, either while parsing or from verification.
+    fn run_batch(blobs: &[&str], commitments: &[&str], proofs: &[&str]) -> Option<bool> {
+        let blobs = blobs
+            .iter()
+            .map(|b| Blob::from_hex(b))
+            .collect::<Result<_, _>>()
+            .ok()?;
+        let commitments = commitments
+            .iter()
+            .map(|c| Bytes48::from_hex(c))
+            .collect::<Result<_, _>>()
+            .ok()?;
+        let proofs = proofs
+            .iter()
+            .map(|p| Bytes48::from_hex(p))
+            .collect::<Result<_, _>>()
+            .ok()?;
+        let kzg_settings = KzgSettings::load_trusted_setup_file().unwrap();
+        KzgProof::verify_blob_kzg_proof_batch(blobs, commitments, proofs, &kzg_settings).ok()
+    }
+
+    #[test]
+    fn verify_blob_kzg_proof_batch_single_blob_vectors() {
+        for (test_file, data) in &VERIFY_BLOB_KZG_PROOF_TESTS {
+            let test: Test<BlobInput> = serde_yaml::from_str(data).unwrap();
+            let input = &test.input;
+            let result = run_batch(&[input.blob], &[input.commitment], &[input.proof]);
+            assert_eq!(result, test.get_output(), "{test_file}");
+        }
+    }
+
+    #[test]
+    fn verify_blob_kzg_proof_batch_vectors() {
+        let dir = concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/tests/verify_blob_kzg_proof_batch"
+        );
+        let mut cases = 0;
+        for entry in std::fs::read_dir(dir).unwrap() {
+            let case = entry.unwrap().path();
+            if !case.is_dir() {
+                continue;
+            }
+            let path = case.join("data.yaml");
+            let data = std::fs::read_to_string(&path).unwrap();
+            let test: Test<BlobBatchInput> = serde_yaml::from_str(&data).unwrap();
+            let input = &test.input;
+            let result = run_batch(&input.blobs, &input.commitments, &input.proofs);
+            assert_eq!(result, test.get_output(), "{}", path.display());
+            cases += 1;
+        }
+        assert_eq!(cases, 24);
     }
 }

@@ -13,6 +13,7 @@ license = "MIT"
 [dependencies]
 openvm-algebra-guest = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0" }
 openvm-ecc-guest = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0" }
+openvm-sha2 = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0" }
 openvm-pairing = { git = "https://github.com/openvm-org/openvm.git", tag = "v2.1.0", features = [
     "bls12_381",
 ] }

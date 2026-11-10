@@ -237,6 +237,9 @@ pub fn safe_g1_affine_from_bytes(bytes: &Bytes48) -> Result<Bls12_381G1Affine, K
     if infinity_flag_set && compression_flag_set && !sort_flag_set && x == Fp::ZERO {
         return Ok(<Bls12_381G1Affine as Group>::IDENTITY);
     }
+    if infinity_flag_set || !compression_flag_set {
+        return Err(KzgError::BadArgs("invalid G1 point encoding".to_string()));
+    }
 
     // Note that we need to determine the y-coord using lexicographic ordering instead of parity, so
     // the value for rec_id does not matter and we can pass in either 0 or 1.
@@ -244,6 +247,12 @@ pub fn safe_g1_affine_from_bytes(bytes: &Bytes48) -> Result<Bls12_381G1Affine, K
         .ok_or_else(|| KzgError::BadArgs("Failed to decompress G1Affine".to_string()))?;
     if is_lex_largest(point.y()) ^ sort_flag_set {
         point.y_mut().neg_assign();
+    }
+    // `decompress` only guarantees the point is on the curve. The identity was returned above.
+    if !crate::subgroup::g1_is_in_correct_subgroup(&point) {
+        return Err(KzgError::BadArgs(
+            "G1Affine not in correct subgroup".to_string(),
+        ));
     }
     Ok(point)
 }

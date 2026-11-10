@@ -6,6 +6,7 @@ pub mod consts;
 pub mod dtypes;
 pub mod enums;
 pub mod kzg_proof;
+pub mod subgroup;
 pub mod trusted_setup;
 pub mod types;
 
